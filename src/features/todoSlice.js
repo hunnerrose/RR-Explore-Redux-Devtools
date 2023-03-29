@@ -1,31 +1,28 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from "@reduxjs/toolkit"
 
 const initialState = {
     items: []
 }
 
-export const todoSlice = createSlice({
-    name: 'todos',
+const todoSlice = createSlice({
+    name: 'items',
     initialState,
     reducers: {
         addTodo: (state, action) => {
-            return { items: [...state.items, action.payload]}
+            return { items: [...state.items, action.payload] }
         },
-        removeOne: (state, action) => {
-            console.log(action)
-            let array = [...state.items]
-            let index = action.payload
-            if(index !== -1) {
-                array.splice(index, 1)
-                return { items: array }
-            }
+        deleteTodo: (state, action) => {
+            const rest = state.items.filter((item, i) => {
+                return i!==action.payload
+            })
+            return { items: [...rest]}
         },
-        clearTodo: () => {
+        clearTodos: state => {
             return { items: [] }
         }
     }
 })
 
-export const { addTodo, removeOne, clearTodo } = todoSlice.actions
+export const { addTodo, deleteTodo, clearTodo } = todoSlice.actions
 
 export default todoSlice.reducer
